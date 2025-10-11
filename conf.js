@@ -44,10 +44,12 @@ exports.attestors = process.env.testnet
 	? {
 		'EJC4A7WQGHEZEKW6RLO7F26SAR4LAQBU': 'discord',
 		'V3QPTTW5PSTKNP5UCGCAPMKAJWUK2GC3': 'telegram',
+		'7JJMSQDS7VG2F5XO23BAUSA5IZ35XBCN': 'mock-real-name-attestation',
 	}
 	: {
 		'5KM36CFPBD2QJLVD65PHZG34WEM4RPY2': 'discord',
 		'JBW7HT5CRBSF7J7RD26AYLQG6GZDPFPS': 'telegram',
+		'JFKWGRMXP3KHUAFMF4SJZVDXFL6ACC6P': 'veriff',
 	};
 
 
