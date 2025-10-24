@@ -416,7 +416,7 @@ async function startWatching() {
 	await telegramInstance.startBot();
 	
 	eventBus.on("aa_request_applied", onAARequest);
-	eventBus.on("aa_response_applied", onAAResponse);
+	eventBus.on("aa_response", onAAResponse);
 
 	await aa_state.followAA(conf.friend_aa);
 	await watchDepositAssetsPools();
@@ -426,6 +426,7 @@ async function startWatching() {
 
 	for (let address in conf.attestors)
 		walletGeneral.addWatchedAddress(address);
+	walletGeneral.addWatchedAddress(conf.friend_aa);
 
 	initAsset();
 	
