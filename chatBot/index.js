@@ -69,7 +69,7 @@ const startChatBot = () => {
 			await db.query("REPLACE INTO user_ghost (address, ghost_name) VALUES(?,?)", [address, selectedGhost]);
 
 			deviceAddressToGhostName.delete(from_address);
-			return device.sendMessageToDevice(from_address, 'text', `Thank you! The ghost ${selectedGhost} has been successfully linked to your address ${address}.`);
+			return device.sendMessageToDevice(from_address, 'text', `Thank you! The ghost ${selectedGhost} has been successfully linked to your wallet address.`);
 		} else {
 			return device.sendMessageToDevice(from_address, 'text', 'Please return to the website and select the ghost again.');
 		}
