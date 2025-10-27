@@ -6,11 +6,13 @@ CREATE TABLE sent_followup_notifications (
 	PRIMARY KEY (address1, address2)
 );
 
+-- query separator
 CREATE TABLE user_ghost (
     address CHAR(32) NOT NULL PRIMARY KEY,
     ghost_name VARCHAR(40) DEFAULT NULL
 );
 
+-- query separator
 CREATE TABLE user_balances (
 	address CHAR(32) NOT NULL,
 	trigger_unit CHAR(44) NOT NULL,
@@ -25,4 +27,5 @@ CREATE TABLE user_balances (
 	creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (trigger_unit, address)
 );
+-- query separator
 CREATE INDEX byAddressTs ON user_balances(address, trigger_date);
