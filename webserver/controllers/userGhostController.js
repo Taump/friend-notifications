@@ -9,8 +9,9 @@ const userGhostController = async (request, reply) => {
 
     const rows = await db.query("SELECT * FROM user_ghost WHERE address=?", [address]);
 
-    if (rows.length === 0)
+    if (rows.length === 0) {
         return reply.status(404).send({ error: 'User not found' });
+    }
 
     return rows[0];
 }
