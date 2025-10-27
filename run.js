@@ -6,7 +6,7 @@ const network = require('ocore/network.js');
 const operator = require('aabot/operator.js');
 const watcher = require('./watcher.js');
 const webserver = require('./webserver/index.js');
-const chatBot = require('./chatBot/index.js');
+const chatbot = require('./chatbot/index.js');
 
 eventBus.on('headless_wallet_ready', async () => {
 	await operator.start();
@@ -14,7 +14,7 @@ eventBus.on('headless_wallet_ready', async () => {
 	network.start();
 	await watcher.startWatching();
 
-	chatBot.start();
+	chatbot.start();
 	webserver.start();
 });
 
