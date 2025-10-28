@@ -46,10 +46,8 @@ const startChatBot = () => {
 		if (!ghostName) return device.sendMessageToDevice(from_address, 'text', 'Please select a ghost name on the website first.');
 
 		if (text.trim().startsWith("[Signed message]") && ghostName && address) {
-			let signedData;
-
 			try {
-				signedData = await getSignedData(from_address, text);
+				await getSignedData(from_address, text);
 			} catch (error) {
 				console.error('Error getting signed data:', error);
 				return device.sendMessageToDevice(from_address, 'text', "Failed to retrieve signed data: " + (error?.error || ""));
