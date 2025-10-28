@@ -24,12 +24,15 @@ const startChatBot = () => {
 		if (!vars || !vars[`user_${ghostName}`]) return device.sendMessageToDevice(from_address, 'text', 'Unknown ghost name');
 		if (vars[key]) return device.sendMessageToDevice(from_address, 'text', 'We\'re already friends! No need to link again.');
 
+		const msgToSign = `choose ${ghostName} as future friend`;
+
 		deviceToGhostAndAddress.set(from_address, {
 			ghostName: ghostName,
-			address: address
+			address: address,
+			msg: msgToSign
 		});
 
-		return device.sendMessageToDevice(from_address, 'text', `Please sign this message to choose ${ghostName} as your future friend at the end of the current streak: [${address}](sign-message-request: choose ${ghostName} as future friend)`);
+		return device.sendMessageToDevice(from_address, 'text', `Please sign this message to choose ${ghostName} as your future friend at the end of the current streak: [${address}](sign-message-request: ${msgToSign})`);
 	});
 
 

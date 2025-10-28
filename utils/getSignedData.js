@@ -9,7 +9,7 @@ module.exports = async (deviceAddress, dataString) => {
         throw new Error('expected data to be a string');
     }
 
-    const { address: expectedWalletAddress, ghostName } = (deviceToGhostAndAddress.get(deviceAddress) ?? {});
+    const { address: expectedWalletAddress, ghostName, msg } = (deviceToGhostAndAddress.get(deviceAddress) ?? {});
 
     if (!expectedWalletAddress || !isValidAddress(expectedWalletAddress)) {
         throw new Error('invalid expected wallet address');
@@ -38,7 +38,10 @@ module.exports = async (deviceAddress, dataString) => {
             }
 
             const { signed_message, authors: [{ address: senderWalletAddress }] } = objSignedMessage;
-            const message = signed_message.trim();
+
+            if (!signed_message || signed_message.trim() !== msg) {
+                return reject({ error: 'signed message does not match expected message' });
+            }
 
             const data = { name: ghostName, address: senderWalletAddress };
 
@@ -48,7 +51,7 @@ module.exports = async (deviceAddress, dataString) => {
                 return reject({ error: 'address in message does not match sender address' });
             }
 
-            return resolve({ message, data, walletAddress: senderWalletAddress, deviceAddress });
+            return resolve({ message: msg, data, walletAddress: senderWalletAddress, deviceAddress });
         });
     });
 }
