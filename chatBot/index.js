@@ -55,10 +55,6 @@ const startChatBot = () => {
 				return device.sendMessageToDevice(from_address, 'text', "Failed to retrieve signed data: " + (error?.error || ""));
 			}
 
-			if (signedData?.deviceAddress !== from_address) {
-				return device.sendMessageToDevice(from_address, 'text', "Unknown device address in the signed message");
-			}
-
 			if (!signedData?.data?.name || signedData?.data?.name !== ghostName) {
 				return device.sendMessageToDevice(from_address, 'text', `Please return to the website and select the ghost again.`);
 			}
