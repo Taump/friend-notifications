@@ -1,11 +1,15 @@
 const { isValidAddress } = require('ocore/validation_utils');
 
-module.exports = async (deviceAddress, expectedWalletAddress, dataString) => {
+const deviceToGhostAndAddress = require('../chatbot/cache.js');
+
+module.exports = async (deviceAddress, dataString) => {
     const validation = require('ocore/validation.js');
 
     if (typeof dataString !== 'string') {
         throw new Error('expected data to be a string');
     }
+
+    const { address: expectedWalletAddress, ghostName } = (deviceToGhostAndAddress.get(deviceAddress) ?? {});
 
     if (!expectedWalletAddress || !isValidAddress(expectedWalletAddress)) {
         throw new Error('invalid expected wallet address');
@@ -34,29 +38,17 @@ module.exports = async (deviceAddress, expectedWalletAddress, dataString) => {
             }
 
             const { signed_message, authors: [{ address: senderWalletAddress }] } = objSignedMessage;
+            const message = signed_message.trim();
 
-            try {
-                const message = signed_message.trim();
-                let data = {};
+            const data = { name: ghostName, address: senderWalletAddress };
 
-                const ghostName = message.trim().replace("choose ", "").replace(" as future friend", "").trim();
-
-                data = {
-                    name: ghostName,
-                    address: senderWalletAddress
-                };
-
-                if (!ghostName || isValidAddress(senderWalletAddress) === false) {
-                    return reject({ error: 'invalid message format' });
-                } else if (expectedWalletAddress !== senderWalletAddress) {
-                    return reject({ error: 'address in message does not match sender address' });
-                }
-
-                return resolve({ message, data, walletAddress: senderWalletAddress, deviceAddress });
-            } catch (err) {
-                console.error('error in signed message:', err);
-                reject({ error: 'unknown error! Please try again.' });
+            if (!ghostName || !isValidAddress(senderWalletAddress)) {
+                return reject({ error: 'invalid message format' });
+            } else if (expectedWalletAddress !== senderWalletAddress) {
+                return reject({ error: 'address in message does not match sender address' });
             }
+
+            return resolve({ message, data, walletAddress: senderWalletAddress, deviceAddress });
         });
     });
 }

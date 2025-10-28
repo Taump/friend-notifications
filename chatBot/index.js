@@ -46,7 +46,7 @@ const startChatBot = () => {
 			let signedData;
 
 			try {
-				signedData = await getSignedData(from_address, address, text);
+				signedData = await getSignedData(from_address, text);
 			} catch (error) {
 				console.error('Error getting signed data:', error);
 				return device.sendMessageToDevice(from_address, 'text', "Failed to retrieve signed data: " + (error?.error || ""));
