@@ -55,10 +55,6 @@ const startChatBot = () => {
 				return device.sendMessageToDevice(from_address, 'text', "Failed to retrieve signed data: " + (error?.error || ""));
 			}
 
-			if (!signedData?.data?.name || signedData?.data?.name !== ghostName) {
-				return device.sendMessageToDevice(from_address, 'text', `Please return to the website and select the ghost again.`);
-			}
-
 			await db.query("REPLACE INTO user_ghost (address, ghost_name) VALUES(?,?)", [address, ghostName]);
 
 			deviceToGhostAndAddress.delete(from_address);
